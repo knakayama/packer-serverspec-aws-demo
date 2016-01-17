@@ -2,7 +2,6 @@ machine:
   environment:
     PACKER_VER: 0.8.6
     PACKER_BIN_PATH: ~/.packer
-    PACKER_PLUGIN_PATH: ~/.packer.d/plugins
     PATH: $PACKER_BIN_PATH:$PATH
 
 dependencies:
@@ -12,22 +11,22 @@ dependencies:
 
   pre:
     - |
-      if [[ -z "$(ls -A $PACKER_BIN_PATH)" ]]; then
-        [[ -d "$PACKER_BIN_PATH" ]] || mkdir "$PACKER_BIN_PATH"
-        cd "$PACKER_BIN_PATH"
+      if [[ -z "$(ls -A ~/.packer)" ]]; then
+        [[ -d ~/.packer ]] || mkdir ~/.packer
+        cd ~/.packer
         wget "https://releases.hashicorp.com/packer/${PACKER_VER}/packer_${PACKER_VER}_linux_amd64.zip"
         unzip *.zip
         rm *.zip
       fi
 
-      if [[ -z "$(ls -A $PACKER_PLUGIN_PATH)" ]]; then
-        [[ -d "$PACKER_PLUGIN_PATH" ]] || mkdir -p "$PACKER_PLUGIN_PATH"
+      if [[ -z "$(ls -A ~/.packer.d/plugins)" ]]; then
+        [[ -d ~/.packer.d/plugins ]] || mkdir -p ~/.packer.d/plugins
         go get github.com/udzura/packer-provisioner-serverspec
         go get github.com/hashicorp/yamux
         go get github.com/ugorji/go/codec
         cd ~/.go_workspace/src/github.com/udzura/packer-provisioner-serverspec
         go build ./cmd/packer-provisioner-serverspec
-        cp -ipv ./packer-provisioner-serverspec "$PACKER_PLUGIN_PATH"
+        cp -ipv ./packer-provisioner-serverspec ~/.packer.d/plugins
       fi
 
   override:
