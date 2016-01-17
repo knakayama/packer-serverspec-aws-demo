@@ -1,2 +1,4 @@
 .envrc
 packer-provisioner-serverspec
+vendor
+.bundle

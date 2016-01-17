@@ -7,7 +7,6 @@ machine:
 dependencies:
   cache_directories:
     - ~/.packer
-    - ~/.packer.d/plugins
 
   pre:
     - |
@@ -17,16 +16,6 @@ dependencies:
         wget "https://releases.hashicorp.com/packer/${PACKER_VER}/packer_${PACKER_VER}_linux_amd64.zip"
         unzip *.zip
         rm *.zip
-      fi
-
-      if [[ -z "$(ls -A ~/.packer.d/plugins)" ]]; then
-        [[ -d ~/.packer.d/plugins ]] || mkdir -p ~/.packer.d/plugins
-        go get github.com/udzura/packer-provisioner-serverspec
-        go get github.com/hashicorp/yamux
-        go get github.com/ugorji/go/codec
-        cd ~/.go_workspace/src/github.com/udzura/packer-provisioner-serverspec
-        go build ./cmd/packer-provisioner-serverspec
-        cp -pv ./packer-provisioner-serverspec ~/.packer.d/plugins
       fi
 
   override:
