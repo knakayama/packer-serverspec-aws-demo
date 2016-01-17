@@ -25,7 +25,7 @@ dependencies:
         mkdir "$GOPATH"
         mkdir "$PACKER_PLUGIN_PATH"
         go get github.com/udzura/packer-provisioner-serverspec
-        cd "${GOPATH}/src/github.com/udzura/packer-provisioner-serverspec
+        cd "${GOPATH}/src/github.com/udzura/packer-provisioner-serverspec"
         go build ./...
         cp -ipv packer-provisioner-serverspec "$PACKER_PLUGIN_PATH"
       fi
