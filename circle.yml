@@ -26,7 +26,7 @@ dependencies:
         go get github.com/ugorji/go/codec
         cd ~/.go_workspace/src/github.com/udzura/packer-provisioner-serverspec
         go build ./cmd/packer-provisioner-serverspec
-        cp -ipv ./packer-provisioner-serverspec ~/.packer.d/plugins
+        cp -pv ./packer-provisioner-serverspec ~/.packer.d/plugins
       fi
 
   override:
