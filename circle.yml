@@ -2,7 +2,6 @@ machine:
   environment:
     PACKER_VER: 0.8.6
     PACKER_BIN_PATH: ~/.packer
-    GOPATH: ~/.go
     PATH: $PACKER_BIN_PATH:$PATH
 
 dependencies:
@@ -21,10 +20,9 @@ dependencies:
       fi
 
       if [[ -z "$(ls -A ~/.packer.d)" ]]; then
-        mkdir ~/.go
         mkdir ~/.packer.d
         go get github.com/udzura/packer-provisioner-serverspec
-        cd ~/.go/src/github.com/udzura/packer-provisioner-serverspec
+        cd ${GOPATH}/src/github.com/udzura/packer-provisioner-serverspec
         go build ./...
         cp -ipv packer-provisioner-serverspec ~/.packer.d
       fi
