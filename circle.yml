@@ -20,13 +20,13 @@ dependencies:
       fi
 
       if [[ -z "$(ls -A ~/.packer.d/plugins)" ]]; then
-        [[ -d ~/.packer.d/plugins ]] || mkdir ~/.packer.d/plugins
+        [[ -d ~/.packer.d/plugins ]] || mkdir -p ~/.packer.d/plugins
         go get github.com/udzura/packer-provisioner-serverspec
         go get github.com/hashicorp/yamux
         go get github.com/ugorji/go/codec
         cd ~/.go_workspace/src/github.com/udzura/packer-provisioner-serverspec
-        go build ./...
-        cp -ipv packer-provisioner-serverspec ~/.packer.d/plugins
+        go build ./cmd/packer-provisioner-serverspec
+        cp -ipv ./packer-provisioner-serverspec ~/.packer.d/plugins
       fi
 
   override:
