@@ -1,0 +1,48 @@
+machine:
+  environment:
+    PACKER_VER: 0.8.6
+    PACKER_BIN_PATH: ~/.packer
+    PACKER_PLUGIN_PATH: ~/.packer.d
+    GOPATH: ~/.go
+    PATH: $PACKER_BIN_PATH:$PATH
+
+dependencies:
+  cache_directories:
+    - ~/.packer
+    - ~/.packer.d
+
+  pre:
+    - |
+      if [[ -z "$(ls -A $PACKER_BIN_PATH)" ]]; then
+        mkdir -p "$PACKER_BIN_PATH"
+        cd "$PACKER_BIN_PATH"
+        wget "https://releases.hashicorp.com/packer/${PACKER_VER}/packer_${PACKER_VER}_linux_amd64.zip"
+        unzip *.zip
+        rm *.zip
+      fi
+
+      if [[ -z "$(ls -A $PACKER_PLUGIN_PATH)" ]]; then
+        mkdir "$GOPATH"
+        mkdir "$PACKER_PLUGIN_PATH"
+        go get github.com/udzura/packer-provisioner-serverspec
+        cd "${GOPATH}/src/github.com/udzura/packer-provisioner-serverspec
+        go build ./...
+        cp -ipv packer-provisioner-serverspec "$PACKER_PLUGIN_PATH"
+      fi
+
+  override:
+    - echo "TODO build"
+
+test:
+  override:
+    - |
+      cd packer/aws/Amazon_Linux
+      packer validate web.json
+
+deployment:
+  production:
+    branch: master
+    commands:
+      - |
+        cd packer/aws/Amazon_Linux
+        packer build web.json
