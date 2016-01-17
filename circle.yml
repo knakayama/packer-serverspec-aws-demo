@@ -7,7 +7,7 @@ machine:
 dependencies:
   cache_directories:
     - ~/.packer
-    - ~/.packer.d
+    - ~/.packer.d/plugins
 
   pre:
     - |
@@ -19,12 +19,14 @@ dependencies:
         rm *.zip
       fi
 
-      if [[ -z "$(ls -A ~/.packer.d)" ]]; then
-        [[ -d ~/.packer.d ]] || mkdir ~/.packer.d
+      if [[ -z "$(ls -A ~/.packer.d/plugins)" ]]; then
+        [[ -d ~/.packer.d/plugins ]] || mkdir ~/.packer.d/plugins
         go get github.com/udzura/packer-provisioner-serverspec
+        go get github.com/hashicorp/yamux
+        go get github.com/ugorji/go/codec
         cd ~/.go_workspace/src/github.com/udzura/packer-provisioner-serverspec
         go build ./...
-        cp -ipv packer-provisioner-serverspec ~/.packer.d
+        cp -ipv packer-provisioner-serverspec ~/.packer.d/plugins
       fi
 
   override:
