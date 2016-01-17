@@ -12,7 +12,7 @@ dependencies:
   pre:
     - |
       if [[ -z "$(ls -A ~/.packer)" ]]; then
-        mkdir -p ~/.packer
+        [[ -d ~/.packer ]] || mkdir ~/.packer
         cd ~/.packer
         wget "https://releases.hashicorp.com/packer/${PACKER_VER}/packer_${PACKER_VER}_linux_amd64.zip"
         unzip *.zip
@@ -20,9 +20,9 @@ dependencies:
       fi
 
       if [[ -z "$(ls -A ~/.packer.d)" ]]; then
-        mkdir ~/.packer.d
+        [[ -d ~/.packer.d ]] || mkdir ~/.packer.d
         go get github.com/udzura/packer-provisioner-serverspec
-        cd ${GOPATH}/src/github.com/udzura/packer-provisioner-serverspec
+        cd ~/.go_workspace/src/github.com/udzura/packer-provisioner-serverspec
         go build ./...
         cp -ipv packer-provisioner-serverspec ~/.packer.d
       fi
