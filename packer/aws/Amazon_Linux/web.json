@@ -49,12 +49,10 @@
       "execute_command": "echo {{user `ssh_username`}} | {{ .Vars }} sudo -E -S sh '{{ .Path }}'",
       "inline": [
         "bash /ops/{{user `scripts_dir`}}/bootstrap.sh",
-        "bash /ops/{{user `scripts_dir`}}/web.sh"
+        "bash /ops/{{user `scripts_dir`}}/web.sh",
+        "cd /ops/{{user `scripts_dir`}}/serverspec",
+        "bash bin/run.sh"
       ]
-    },
-    {
-      "type": "serverspec",
-      "source_path": "../../{{user `scripts_dir`}}/serverspec"
     }
   ]
 }
